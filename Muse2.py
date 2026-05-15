@@ -1,4 +1,4 @@
-# Python and pyo implementation of the Triadex Muse
+# Python implementation of the Triadex Muse
 # Logic from descriptions by Lenny Foner (http://bella.media.mit.edu/people/foner/) and Paul Geffen (http://trovar.com/index.html)
 # Trovar description here: http://web.archive.org/web/20011118181946/http://richter.simplenet.com/muse/musespec.html
 # With guidance from Donald Derek Haddad (https://donaldderek.com/)
