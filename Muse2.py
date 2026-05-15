@@ -16,7 +16,8 @@ Change variables under "Use-operated variables" near the bottom of the program
 
 import random
 import time
-from pyo import *
+import math
+import sys
 
 # defining classes
 
@@ -222,7 +223,7 @@ def pulseAll(key=pitch,
 	# get note, return in Hz
 	noteNum = getNoteNum([sliderVals[i] for i in range(4)])
 	noteFrequency = getNoteFrequency(key,noteNum)
-	print noteNum
+	#print(noteNum)
 	return noteFrequency
 
 """ User-operated variables """
@@ -249,15 +250,19 @@ bpm = 240
 
 # sound
 
-seconds = 60.0/bpm
-
-s = Server().boot() # booting pyo server
-s.start()
+seconds = 60.0/bpm    # seconds per beat
+samp = 44100          # sample rate
+sec_max = 0           # how many seconds to output
+cursec = 0            # current position
 
 while True:
-	note = Sine(freq=pulseAll(pitch),mul=0.05).out()
-	time.sleep(seconds)
-
-
+	freq = pulseAll(pitch)
+	for x in range(int(seconds * samp)):
+		v = math.sin(2 * math.pi * x / samp * freq) * 100 + 128
+		b = bytes([int(v)])
+		sys.stdout.buffer.write(b)
+	cursec += seconds
+	if sec_max > 0 and cursec >= sec_max:
+		break
 
 
