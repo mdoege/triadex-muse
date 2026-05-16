@@ -263,7 +263,7 @@ while True:
 		v = math.sin(p) * 100 + 128
 		b = bytes([int(v)])
 		sys.stdout.buffer.write(b)
-	p0 = p
+	p0 = p % (2 * math.pi)
 	cursec += seconds
 	if sec_max > 0 and cursec >= sec_max:
 		break
