@@ -286,15 +286,34 @@ for i in range(1, 32):
 # main loop
 while True:
 	freq = pulseAll(pitch)
+
+	# medium frequencies have the highest amplitude
+	#   (like a band-pass filter around 2 * base pitch)
+	if freq > 2 * pitch:
+		ampli = 2 * pitch / freq
+	else:
+		ampli = freq / (2 * pitch)
+
+	# refill the shift register if it is empty to try to prevent "the hum"
+	if sum(shiftRegister.items) == 0:
+		for i, x in enumerate(shiftRegister.items):
+			shiftRegister.items[i] = random.randint(0,1)
+
+	# send sine wave to standard output
 	for x in range(int(seconds * samp)):
 		p = 2 * math.pi * x / samp * freq
-		v = math.sin(p) * 100 * pitch / freq + 128
+		v = math.sin(p) * 100 * ampli + 128
+		# add a slight low-pass filter to smooth transitions between notes
 		out += (v - out) / low_pass
 		b = bytes([round(out)])
 		sys.stdout.buffer.write(b)
+
+	# check if maximum duration has been reached
 	cursec += seconds
 	if sec_max > 0 and cursec >= sec_max:
 		break
+
+	# introduce random changes to slider settings
 	if evolve > 0:
 		ev_count += 1
 		if ev_count == evolve:
@@ -312,7 +331,8 @@ while True:
 			# print current settings to stderr
 			for x in allSliders:
 				sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
-			sys.stderr.write("\n")
+			# print shift register
+			sr = "".join([str(x) for x in shiftRegister.items])
+			sys.stderr.write("\n         LFSR: %s\n" % sr)
 			sys.stderr.flush()
-
 
