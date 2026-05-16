@@ -271,8 +271,9 @@ counter_prob = .1
 
 seconds = 60 / bpm    # seconds per beat
 cursec = 0            # current position
-p0 = 0                # final phase angle of last note
 ev_count = 0          # counter for random changes
+out = 128             # low-pass filtered output value
+low_pass = 20         # low-pass filter time scale
 
 # create list of slider setting names
 spos = ["OFF", "ON ", "C.5", "C1 ", "C2 ", "C4 ", "C8 ", "C3 ", "C6 "]
@@ -286,11 +287,11 @@ for i in range(1, 32):
 while True:
 	freq = pulseAll(pitch)
 	for x in range(int(seconds * samp)):
-		p = p0 + 2 * math.pi * x / samp * freq
+		p = 2 * math.pi * x / samp * freq
 		v = math.sin(p) * 100 * pitch / freq + 128
-		b = bytes([int(v)])
+		out += (v - out) / low_pass
+		b = bytes([round(out)])
 		sys.stdout.buffer.write(b)
-	p0 = p % (2 * math.pi)
 	cursec += seconds
 	if sec_max > 0 and cursec >= sec_max:
 		break
