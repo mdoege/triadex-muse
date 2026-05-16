@@ -250,17 +250,20 @@ bpm = 240
 
 # sound
 
-seconds = 60.0/bpm    # seconds per beat
+seconds = 60 / bpm    # seconds per beat
 samp = 44100          # sample rate
 sec_max = 0           # how many seconds to output
 cursec = 0            # current position
+p0 = 0                # final phase angle of last note
 
 while True:
 	freq = pulseAll(pitch)
 	for x in range(int(seconds * samp)):
-		v = math.sin(2 * math.pi * x / samp * freq) * 100 + 128
+		p = p0 + 2 * math.pi * x / samp * freq
+		v = math.sin(p) * 100 + 128
 		b = bytes([int(v)])
 		sys.stdout.buffer.write(b)
+	p0 = p
 	cursec += seconds
 	if sec_max > 0 and cursec >= sec_max:
 		break
