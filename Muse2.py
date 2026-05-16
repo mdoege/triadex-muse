@@ -188,6 +188,8 @@ def getNoteNum(inputList):
 def getNoteFrequency(key,noteNum):
 	# key = tonic frequency, noteNum = placement in scale (e.g. 0 = tonic, 1 = whole step up)
 	# progression of half tone increases in a major scale
+	# (The middle note, one octave up from the tonic/base pitch, is repeated,
+	# so that the D switch input controls the octave.)
 	halfTones = [0,2,4,5,7,9,11,12,12,14,16,17,19,21,23,24]
 	# convert placement in scale to Hz
 	frequency = key * (1.05946882217 ** halfTones[noteNum])
