@@ -193,7 +193,7 @@ def getNoteFrequency(key,noteNum):
 	frequency = key * (1.05946882217 ** halfTones[noteNum])
 	return frequency
 
-# creating interval and theme sliders, setting initial key
+# creating interval and theme sliders
 
 A = Slider("A")
 B = Slider("B")
@@ -205,11 +205,10 @@ Y = Slider("Y")
 Z = Slider("Z")
 
 allSliders = [A,B,C,D,W,X,Y,Z]
-pitch = 261.6
 
 # a big function that pulses everything (clock, counters, shift register) "forwards" in time and returns a note
 
-def pulseAll(key=pitch,
+def pulseAll(key,
 			sliderList=allSliders,
 			stack=shiftRegister,
 			clock=timer,
@@ -247,8 +246,13 @@ X.val = 19
 Y.val = 8
 Z.val = 25
 
-# key: middle C = 261.6
-pitch = 200
+# lowest pitch in Hz
+#               C5 = 523.25
+#               A4 = 440
+#    middle C = C4 = 261.63
+#               A3 = 220
+#               C3 = 130.81
+pitch = 220
 
 # tempo in beats per minute
 bpm = 240
