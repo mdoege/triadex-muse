@@ -14,9 +14,9 @@ Alternatively, you can redirect output to a file and then import it into Audacit
 
 The ```evolve``` parameter (line 257) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 10 (default), the settings will change every ten beats. The new settings are also printed to standard error output.
 
-By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in shift register will cause more random and non-repeating melodies.
+By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in a shift register will cause more random and non-repeating melodies.
 
-Sometimes the slider settings randomly evolve to a point where there is only a low hum. This is not a bug in the program; the Muse is simply in a configuration where it does not get any non-zero pitches from the interval sliders (A to D), typically because the theme sliders (W to Z) are in a bad position where only silence is generated in the shift register. So with A to D getting a zero input, only the lowest pitch (0000) is generated, which causes the hum. Usually after a minute or so, the music picks up again.
+Sometimes the slider settings randomly evolve to a point where nothing is heard but a low hum. This is not a bug in the program; the Muse is simply in a configuration where it does not get any non-zero pitches from the interval sliders (A to D), typically because the theme sliders (W to Z) are in a bad position where only silence is generated in the shift register. So with A to D getting a zero input, only the lowest pitch (0000) is generated, which causes the hum. Usually after a minute or so, the music picks up again.
 
 The ```sec_max``` parameter (line 263) defines maximum duration of the sound, or use 0 for infinite playback. Limiting duration is especially useful when redirecting audio to a file.
 
