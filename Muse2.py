@@ -274,6 +274,15 @@ cursec = 0            # current position
 p0 = 0                # final phase angle of last note
 ev_count = 0          # counter for random changes
 
+# create list of slider setting names
+spos = ["OFF", "ON ", "C.5", "C1 ", "C2 ", "C4 ", "C8 ", "C3 ", "C6 "]
+for i in range(1, 32):
+	t = "B%u" % i
+	if len(t) < 3:
+		t += " "
+	spos.append(t)
+
+# main loop
 while True:
 	freq = pulseAll(pitch)
 	for x in range(int(seconds * samp)):
@@ -298,10 +307,10 @@ while True:
 				s.val = random.randint(9, 39)
 
 			# print changed value to stderr
-			sys.stderr.write("%s -> %2u\n         " % (s.name, s.val))
+			sys.stderr.write("%s -> %s\n         " % (s.name, spos[s.val]))
 			# print current settings to stderr
 			for x in allSliders:
-				sys.stderr.write("%s: %2u  " % (x.name, x.val))
+				sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
 			sys.stderr.write("\n")
 			sys.stderr.flush()
 
