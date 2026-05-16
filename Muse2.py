@@ -287,7 +287,7 @@ while True:
 	freq = pulseAll(pitch)
 	for x in range(int(seconds * samp)):
 		p = p0 + 2 * math.pi * x / samp * freq
-		v = math.sin(p) * 100 + 128
+		v = math.sin(p) * 100 * pitch / freq + 128
 		b = bytes([int(v)])
 		sys.stdout.buffer.write(b)
 	p0 = p % (2 * math.pi)
