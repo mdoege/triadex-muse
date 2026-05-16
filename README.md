@@ -2,7 +2,7 @@
 
 Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Ed Fredkin and Marvin Minsky
 
-Be careful, this fork of the script sends raw 8-bit unsigned audio samples to standard output, so you need to redirect output to an audio player (or a file)! You can e.g. use the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
+Be careful, this fork of the script sends raw unsigned 8-bit audio samples to standard output, so you need to redirect output to an audio player (or a file)! You can e.g. use the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
 
 ```python3 Muse2.py | play -t raw -b 8 -e unsigned -c 1 -v 1 -r 44100 -q -```
 

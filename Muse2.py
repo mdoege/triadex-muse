@@ -19,6 +19,11 @@ import time
 import math
 import sys
 
+if sys.stdout.isatty():
+	print("*** This script outputs audio samples (unsigned 8-bit 44.1 kHz).")
+	print("*** Please redirect standard output to an audio player or a file!")
+	sys.exit()
+
 # defining classes
 
 class Clock:
