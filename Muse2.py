@@ -253,7 +253,7 @@ pitch = 200
 # tempo in beats per minute
 bpm = 240
 
-# evolve setting every x beats, or 0 for constant settings
+# evolve settings every x beats, or 0 for constant settings
 evolve = 10
 
 # sample rate in Hz
@@ -297,8 +297,12 @@ while True:
 				# switch to Bx (shift register) section
 				s.val = random.randint(9, 39)
 
-			# print change to stderr
-			sys.stderr.write("%s: %2u\n" % (s.name, s.val))
+			# print changed value to stderr
+			sys.stderr.write("%s -> %2u\n         " % (s.name, s.val))
+			# print current settings to stderr
+			for x in allSliders:
+				sys.stderr.write("%s: %2u  " % (x.name, x.val))
+			sys.stderr.write("\n")
 			sys.stderr.flush()
 
 
