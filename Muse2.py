@@ -112,7 +112,7 @@ class TripleCounter:
 		return str(self.digits)
 
 	def pulse(self):
-		length = self.length # for convenienve
+		length = self.length # for convenience
 
 		def switch(digit):
 			# switch a digit fom 0 to 1 or vice versa
@@ -140,12 +140,14 @@ class Slider:
 	# use in Muse: create 'A','B','C','D' (interval),'W','X','Y','Z' (theme) sliders
 
 	def __init__(self,
+				name,
 				val=0,
 				binaryCounter=counter1,
 				tripleCounter=counter2,
 				stack=shiftRegister):
 		# initializes as a variable set to 0, i.e. "off"
 		# binaryCounter and stack are what the sliders will pull values from
+		self.name = name
 		self.val = val
 		self.binaryCounter = binaryCounter
 		self.tripleCounter = tripleCounter
@@ -193,14 +195,14 @@ def getNoteFrequency(key,noteNum):
 
 # creating interval and theme sliders, setting initial key
 
-A = Slider()
-B = Slider()
-C = Slider()
-D = Slider()
-W = Slider()
-X = Slider()
-Y = Slider()
-Z = Slider()
+A = Slider("A")
+B = Slider("B")
+C = Slider("C")
+D = Slider("D")
+W = Slider("W")
+X = Slider("X")
+Y = Slider("Y")
+Z = Slider("Z")
 
 allSliders = [A,B,C,D,W,X,Y,Z]
 pitch = 261.6
@@ -251,15 +253,26 @@ pitch = 200
 # tempo in beats per minute
 bpm = 240
 
+# evolve setting every x beats, or 0 for constant settings
+evolve = 10
+
+# sample rate in Hz
+samp = 44100
+
+# how many seconds to output
+sec_max = 0
+
+# probability that a random switch will happen into the counter section
+counter_prob = .1
+
 """ End of user-operated variables """
 
-# sound
+# sound synthesis and output section
 
 seconds = 60 / bpm    # seconds per beat
-samp = 44100          # sample rate
-sec_max = 0           # how many seconds to output
 cursec = 0            # current position
 p0 = 0                # final phase angle of last note
+ev_count = 0          # counter for random changes
 
 while True:
 	freq = pulseAll(pitch)
@@ -272,5 +285,20 @@ while True:
 	cursec += seconds
 	if sec_max > 0 and cursec >= sec_max:
 		break
+	if evolve > 0:
+		ev_count += 1
+		if ev_count == evolve:
+			ev_count = 0
+			s = random.choice(allSliders)
+			if random.random() < counter_prob:
+				# switch to OFF/ON/Cx (counter) section
+				s.val = random.randint(0, 8)
+			else:
+				# switch to Bx (shift register) section
+				s.val = random.randint(9, 39)
+
+			# print change to stderr
+			sys.stderr.write("%s: %2u\n" % (s.name, s.val))
+			sys.stderr.flush()
 
 
