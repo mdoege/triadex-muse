@@ -1,14 +1,28 @@
 ## Triadex Muse
 
-Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Ed Fredkin and Marvin Minsky
+Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Ed Fredkin and Marvin Minsky, a pioneering music synthesizer which uses two counters and a 31-bit linear-feedback shift register (with up to four taps) to generate repeating or random signals which are then converted into a series of 15 different pitches of the major scale, covering two octaves.
 
-Be careful, this fork of the script sends raw unsigned 8-bit audio samples to standard output, so you need to redirect output to an audio player (or a file)! You can e.g. use the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
+### Basic usage
+
+This fork of the script sends raw mono unsigned 8-bit audio samples at a sampling rate of 44.1 kHz to standard output, so you need to redirect output to an audio player (or a file)! You can e.g. use the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
 
 ```python3 Muse2.py | play -t raw -b 8 -e unsigned -c 1 -v 1 -r 44100 -q -```
+
+Alternatively, you can redirect output to a file and then import it into Audacity as a raw file.
+
+### Program parameters
 
 The ```evolve``` parameter (line 257) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 10 (default), the settings will change every ten beats. The new settings are also printed to standard error output.
 
 By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in shift register will cause more random and non-repeating melodies.
 
+Sometimes the slider settings randomly evolve to a point where there is only a low hum. This is not a bug in the program; the Muse is simply in a configuration where it does not get any non-zero pitches from the interval sliders (A to D), typically because the theme sliders (W to Z) are in a bad position where only silence is generated in the shift register. So with A to D getting a zero input, only the lowest pitch (0000) is generated, which causes the hum. Usually after a minute or so, the music picks up again.
+
 The ```sec_max``` parameter (line 263) defines maximum duration of the sound, or use 0 for infinite playback. Limiting duration is especially useful when redirecting audio to a file.
+
+![muse](muse.jpg "Triadex Muse photo")
+
+### Credits
+
+* [Triadex Muse](https://commons.wikimedia.org/wiki/File:Triadex_Muse_synthesizer_(1972),_Computer_History_Museum.jpg) image by Michael Hicks from Saint Paul, MN, USA, CC BY 2.0 <https://creativecommons.org/licenses/by/2.0>, via Wikimedia Commons
 
