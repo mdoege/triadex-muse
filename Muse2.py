@@ -271,6 +271,9 @@ sec_max = 0
 # probability that a random switch will happen into the counter section
 counter_prob = .1
 
+# print current slider settings to standard error output?
+show_info = True
+
 """ End of user-operated variables """
 
 # sound synthesis and output section
@@ -332,13 +335,14 @@ while True:
 				# switch to Bx (shift register) section
 				s.val = random.randint(9, 39)
 
-			# print changed value to stderr
-			sys.stderr.write("%s -> %s\n         " % (s.name, spos[s.val]))
-			# print current settings to stderr
-			for x in allSliders:
-				sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
-			# print shift register
-			sr = "".join([str(x) for x in shiftRegister.items])
-			sys.stderr.write("\n         LFSR: %s\n" % sr)
-			sys.stderr.flush()
+			if show_info:
+				# print changed value to stderr
+				sys.stderr.write("%s -> %s\n         " % (s.name, spos[s.val]))
+				# print current settings to stderr
+				for x in allSliders:
+					sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
+				# print shift register
+				sr = "".join([str(x) for x in shiftRegister.items])
+				sys.stderr.write("\n         LFSR: %s\n" % sr)
+				sys.stderr.flush()
 
