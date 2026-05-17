@@ -260,7 +260,7 @@ pitch = 220
 bpm = 240
 
 # evolve settings every x beats, or 0 for constant settings
-evolve = 10
+evolve = 16
 
 # sample rate in Hz
 samp = 44100

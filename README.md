@@ -12,7 +12,7 @@ Alternatively, you can redirect output to a file and then import it into Audacit
 
 ### Program parameters
 
-The ```evolve``` parameter (line 257) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 10 (default), the settings will change every ten beats. The new settings are also printed to standard error output.
+The ```evolve``` parameter (line 257) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 16 (default), the settings will change every sixteen beats. The new settings are also printed to standard error output.
 
 By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in a shift register will cause more random and non-repeating melodies.
 
