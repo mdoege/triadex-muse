@@ -49,7 +49,7 @@ class Stack:
 	def __init__(self,length):
 		# initializes as random 0s and 1s, to specified length
 		self.length = length
-		self.items = [random.randint(0,1) for i in range(self.length)]
+		self.items = [0 for i in range(self.length)]
 
 	def __str__(self):
 		# prints as a list
@@ -171,9 +171,9 @@ class Slider:
 
 def parityGen(inputList):
 	# inputList should be a binary, a list of the values of W through Z sliders
-	# parityGen outputs 0 for an even sum and 1 for an odd sum
-	summedOuts = sum(inputList)
-	output = summedOuts %2
+	# parityGen outputs 1 for an even sum and 0 for an odd sum
+	summedOuts = sum(inputList) + 1
+	output = summedOuts % 2
 	return output
 
 def getNoteNum(inputList):
@@ -303,7 +303,7 @@ while True:
 	else:
 		ampli = freq / (2 * pitch)
 
-	# refill the shift register if it is empty to try to prevent "the hum"
+	# refill the shift register if it is empty (should never happen)
 	if sum(shiftRegister.items) == 0:
 		for i, x in enumerate(shiftRegister.items):
 			shiftRegister.items[i] = random.randint(0,1)
