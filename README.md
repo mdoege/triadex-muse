@@ -1,6 +1,12 @@
 ## Triadex Muse
 
-Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer. It uses two counters and a 31-bit linear-feedback shift register (with up to four taps: theme sliders W to Z) to generate repeating or random on/off signals. These signals are then "picked up" by the four interval sliders (A to D) at their respective positions. The resulting four-bit number is finally converted into one of 15 different pitches of the major scale, covering two octaves.
+Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer.
+
+### How the Muse works
+
+The Muse uses two binary counters and a 31-bit linear-feedback shift register (with up to four taps: theme sliders W to Z) to generate input signals, which are either repeating or more random patterns, depending on the setting of the theme sliders.
+
+Bits from these signals are then selected by the four interval sliders (A to D) at their respective positions. The resulting four-bit number is finally converted into one of 15 different pitches of the major scale, where A=1, B=2, C=4, D=8 (octave). The pitch one octave up from the base pitch/tonic is repeated because it has *two* four-bit representations (7 and 8). The total range of the Muse is two octaves.
 
 ### Basic usage
 
