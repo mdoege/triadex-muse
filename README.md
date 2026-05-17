@@ -1,6 +1,6 @@
 ## Triadex Muse
 
-Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer.
+This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer. The only prerequisite required is an audio player that can play raw audio samples.
 
 ### How the Muse works
 
