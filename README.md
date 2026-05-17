@@ -10,9 +10,9 @@ Bits from these signals are then selected by the four interval sliders (A to D) 
 
 ### Basic usage
 
-This fork of the script sends raw mono unsigned 8-bit audio samples at a sampling rate of 44.1 kHz to standard output, so you need to redirect output to an audio player (or a file)! You can e.g. use the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
+This script sends signed 16-bit audio samples (mono; 44.1 kHz) to standard output, so you need to redirect output to an audio player or a file. You can e.g. pipe output into the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
 
-```python3 Muse2.py | play -t raw -b 8 -e unsigned -c 1 -v 1 -r 44100 -q -```
+```python3 Muse2.py | play -t raw -b 16 -e signed -c 1 -v 1 -r 44100 -q -```
 
 Alternatively, you can redirect output to a file and then import it into Audacity as a raw file.
 

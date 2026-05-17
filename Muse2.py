@@ -18,9 +18,10 @@ import random
 import time
 import math
 import sys
+import struct
 
 if sys.stdout.isatty():
-	print("*** This script outputs audio samples (unsigned 8-bit 44.1 kHz).")
+	print("*** This script outputs audio samples.")
 	print("*** Please redirect standard output to an audio player or a file!")
 	sys.exit()
 
@@ -312,10 +313,10 @@ while True:
 	# send sine wave to standard output
 	for x in range(int(seconds * samp)):
 		p = 2 * math.pi * x / samp * freq
-		v = math.sin(p) * 100 * ampli + 128
+		v = math.sin(p) * 20000 * ampli
 		# add a slight low-pass filter to smooth transitions between notes
 		out += (v - out) / low_pass
-		b = bytes([round(out)])
+		b = struct.pack("h", round(out))
 		sys.stdout.buffer.write(b)
 
 	# check if maximum duration has been reached
