@@ -303,10 +303,11 @@ while True:
 	else:
 		ampli = freq / (2 * pitch)
 
-	# refill the shift register if it is empty (should never happen)
-	if sum(shiftRegister.items) == 0:
+	# refill the shift register with random bits if it is all zeros or all ones
+	#   (occasionally this happens if W, X, Y, Z are in bad positions)
+	if sum(shiftRegister.items) in (0, 31):
 		for i, x in enumerate(shiftRegister.items):
-			shiftRegister.items[i] = random.randint(0,1)
+			shiftRegister.items[i] = random.randint(0, 1)
 
 	# send sine wave to standard output
 	for x in range(int(seconds * samp)):
