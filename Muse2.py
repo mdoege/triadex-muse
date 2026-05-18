@@ -282,7 +282,7 @@ show_info = True
 seconds = 60 / bpm    # seconds per beat
 cursec = 0            # current position
 ev_count = 0          # counter for random changes
-out = 128             # low-pass filtered output value
+out = 0               # low-pass filtered output value
 low_pass = 20         # low-pass filter time scale
 
 # create list of slider setting names
@@ -313,7 +313,7 @@ while True:
 	# send sine wave to standard output
 	for x in range(int(seconds * samp)):
 		p = 2 * math.pi * x / samp * freq
-		v = math.sin(p) * 20000 * ampli
+		v = 20000 * ampli * math.sin(p)
 		# add a slight low-pass filter to smooth transitions between notes
 		out += (v - out) / low_pass
 		b = struct.pack("h", round(out))
