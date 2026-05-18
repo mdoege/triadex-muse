@@ -193,7 +193,8 @@ def getNoteFrequency(key,noteNum):
 	# so that the D switch input controls the octave.)
 	halfTones = [0,2,4,5,7,9,11,12,12,14,16,17,19,21,23,24]
 	# convert placement in scale to Hz
-	frequency = key * (1.05946882217 ** halfTones[noteNum])
+	eqt = 2**(1/12)
+	frequency = key * (eqt ** halfTones[noteNum])
 	return frequency
 
 # creating interval and theme sliders
