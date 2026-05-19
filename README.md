@@ -22,7 +22,9 @@ Alternatively, you can redirect output to a file and then import it into Audacit
 
 #### With MIDI output
 
-If ```MIDI = True``` (line 24), output is sent as MIDI notes using the [mido](https://github.com/mido/mido) module. An external synth is required in that case. [Dexed](https://asb2m10.github.io/dexed/) is a nice open source FM synth that works well and also shows which keys are currently played.
+If ```MIDI = True``` (line 24), output is sent as MIDI notes using the [mido](https://github.com/mido/mido) module. An external synth is required in that case, but many free and open source options exist.
+
+[Dexed](https://asb2m10.github.io/dexed/) is a nice open source FM synth with many great presets, and it also shows which keys are currently played. Or try [amsynth](https://amsynth.github.io/) (Linux/Mac) for some analog warmth, e.g. using the [MixedBag1](https://musical-artifacts.com/artifacts/142) ⇨ CorgGalaxy01 patch.
 
 ### Program parameters
 
