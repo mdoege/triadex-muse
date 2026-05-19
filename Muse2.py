@@ -20,7 +20,18 @@ import math
 import sys
 import struct
 
-if sys.stdout.isatty():
+# send notes via MIDI output?
+MIDI = True
+
+
+if MIDI:
+	import mido
+
+	port = mido.open_output()
+	msg = mido.Message('control_change', control = 123)
+	port.send(msg)
+
+if sys.stdout.isatty() and not MIDI:
 	print("*** This script outputs audio samples.")
 	print("*** Please redirect standard output to an audio player or a file!")
 	sys.exit()
@@ -195,7 +206,7 @@ def getNoteFrequency(key,noteNum):
 	# convert placement in scale to Hz
 	eqt = 2**(1/12)
 	frequency = key * (eqt ** halfTones[noteNum])
-	return frequency
+	return frequency, halfTones[noteNum]
 
 # creating interval and theme sliders
 
@@ -232,9 +243,9 @@ def pulseAll(key,
 	stack.pulse(parityOut)
 	# get note, return in Hz
 	noteNum = getNoteNum([sliderVals[i] for i in range(4)])
-	noteFrequency = getNoteFrequency(key,noteNum)
+	noteFrequency, halfTones = getNoteFrequency(key, noteNum)
 	#print(noteNum)
-	return noteFrequency
+	return noteFrequency, halfTones
 
 """ User-operated variables """
 
@@ -276,6 +287,12 @@ counter_prob = .1
 # print current slider settings to standard error output?
 show_info = True
 
+# lowest pitch as a MIDI key number (60 = middle C (C4), 72 = C5, 48 = C3)
+midi_base = 48
+
+# MIDI key velocity
+midi_vel = 100
+
 """ End of user-operated variables """
 
 # sound synthesis and output section
@@ -296,7 +313,7 @@ for i in range(1, 32):
 
 # main loop
 while True:
-	freq = pulseAll(pitch)
+	freq, note = pulseAll(pitch)
 
 	# medium frequencies have the highest amplitude
 	#   (like a band-pass filter around 2 * base pitch)
@@ -312,13 +329,27 @@ while True:
 			shiftRegister.items[i] = random.randint(0, 1)
 
 	# send sine wave to standard output
-	for x in range(int(seconds * samp)):
-		p = 2 * math.pi * x / samp * freq
-		v = 20000 * ampli * math.sin(p)
-		# add a slight low-pass filter to smooth transitions between notes
-		out += (v - out) / low_pass
-		b = struct.pack("h", round(out))
-		sys.stdout.buffer.write(b)
+	if not MIDI:
+		for x in range(int(seconds * samp)):
+			p = 2 * math.pi * x / samp * freq
+			v = 20000 * ampli * math.sin(p)
+			# add a slight low-pass filter to smooth transitions between notes
+			out += (v - out) / low_pass
+			b = struct.pack("h", round(out))
+			sys.stdout.buffer.write(b)
+
+	# send note via MIDI
+	if MIDI:
+		msg = mido.Message('note_on', note = note + midi_base, velocity = midi_vel)
+		port.send(msg)
+		try:
+			time.sleep(seconds)
+		except KeyboardInterrupt:
+			msg = mido.Message('control_change', control = 123)
+			port.send(msg)
+			break        
+		msg = mido.Message('note_off', note = note + midi_base)
+		port.send(msg)
 
 	# check if maximum duration has been reached
 	cursec += seconds

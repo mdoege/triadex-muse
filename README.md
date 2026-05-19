@@ -1,6 +1,8 @@
 ## Triadex Muse
 
-This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer. The only prerequisite required is an audio player that can play raw audio samples.
+This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering music synthesizer.
+
+Audio output works either by built-in audio synthesis (which requires an audio player that can play raw audio samples) or by MIDI output to an external synth.
 
 ### How the Muse works
 
@@ -10,19 +12,25 @@ Bits from these signals are then selected by the four interval sliders (A to D) 
 
 ### Basic usage
 
-This script sends signed 16-bit audio samples (mono; 44.1 kHz) to standard output, so you need to redirect output to an audio player or a file. You can e.g. pipe output into the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
+#### With built-in audio synthesis
+
+If ```MIDI = False``` (line 24), the script sends signed 16-bit audio samples (mono; 44.1 kHz) to standard output, so you need to redirect output to an audio player or a file. You can e.g. pipe output into the ```play``` command from [SoX](https://sox.sourceforge.net/) to listen to it:
 
 ```python3 Muse2.py | play -t raw -b 16 -e signed -c 1 -v 1 -r 44100 -q -```
 
 Alternatively, you can redirect output to a file and then import it into Audacity as a raw file.
 
+#### With MIDI output
+
+If ```MIDI = True``` (line 24), output is sent as MIDI notes using the [mido](https://github.com/mido/mido) module. An external synth is required in that case. [Dexed](https://asb2m10.github.io/dexed/) is a nice open source FM synth that works well and also shows which keys are currently played.
+
 ### Program parameters
 
-The ```evolve``` parameter (line 264) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 16 (default), the settings will change every sixteen beats. The new settings are also printed to standard error output.
+The ```evolve``` parameter (line 276) controls how frequently the Muse slider settings are changed (by randomly picking a slider and setting it to a new value). E.g. if it is set to 16 (default), the settings will change every sixteen beats. The new settings are also printed to standard error output.
 
 By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in a shift register will cause more random and non-repeating melodies.
 
-The ```sec_max``` parameter (line 270) defines maximum duration of the sound, or use 0 for infinite playback. Limiting duration is especially useful when redirecting audio to a file.
+The ```sec_max``` parameter (line 282) defines maximum duration of the sound, or use 0 for infinite playback. Limiting duration is especially useful when redirecting audio to a file.
 
 ![muse](muse.jpg "Triadex Muse photo")
 
