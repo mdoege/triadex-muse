@@ -4,7 +4,7 @@ This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.
 
 Audio output works either by built-in audio synthesis (which requires an audio player that can play raw audio samples) or by MIDI output to an external synth.
 
-### Photo of a Triadex Muse at the Computer History Museum
+### Computer History Museum exhibit
 
 ![muse](muse.jpg "Triadex Muse photo")
 
