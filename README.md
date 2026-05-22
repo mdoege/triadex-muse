@@ -4,17 +4,21 @@ This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.
 
 Audio output works either by built-in audio synthesis (which requires an audio player that can play raw audio samples) or by MIDI output to an external synth.
 
+### Photo of a Triadex Muse at the Computer History Museum
+
+![muse](muse.jpg "Triadex Muse photo")
+
 ### How the Muse works
 
-The Triadex Muse (see photo below) plays an endless melody over two octaves of a major scale. The tempo and base pitch/tonic can be adjusted by the user. Eight sliders with 40 settings each are used to control how the Muse calculates the next note of the melody.
+The Triadex Muse plays an endless melody over two octaves of a major scale. The tempo and base pitch/tonic can be adjusted by the user. Eight sliders with 40 settings each are used to control how the Muse calculates the next note of the melody.
+
+[This page](https://till.com/articles/muse/) has some background information about the Muse and also features a JavaScript-based simulator. Just place the eight sliders at random positions, increase the tempo to 6 or 7 and click *RUN*. It even simulates the four-color light show box that was available as an optional accessory.
 
 The Muse uses two binary counters and a 31-bit [linear-feedback shift register](https://en.wikipedia.org/wiki/Linear-feedback_shift_register) (with up to four taps: theme sliders W to Z) to create binary input signals. The generated patterns are either repeating or more random, depending on the setting of the theme sliders. LEDs at the right side show the currently active bits in the counters and shift register.
 
 Bits from these signals are then selected by the four interval sliders (A to D) at their respective positions. The resulting four-bit number is finally converted into one of 15 different pitches of the major scale, where A=1, B=2, C=4, D=8 (octave). The pitch one octave up from the base pitch/tonic is duplicated in this encoding because it has *two* representations, 7 and 8.
 
-[This page](https://till.com/articles/muse/) has a more detailed explanation of the Muse and also features a JavaScript-based simulator. Just place the eight sliders at random positions, increase the tempo to 6 or 7 and click *RUN*. It even simulates the four-color light show box that was available as an optional accessory.
-
-### Basic usage
+### Basic usage of the Python script
 
 #### With built-in audio synthesis
 
@@ -44,8 +48,6 @@ The ```evolve``` parameter (line 276) controls how frequently the Muse slider se
 By default, there is a 10% probability that a switch will be moved to the counter section (OFF/ON/Cx), otherwise it will be set to one of the shift register bits (B1–B31). A switch in the counter section will produce a more repetitive sound, while a switch in a shift register will cause more random and non-repeating melodies.
 
 The ```sec_max``` parameter (line 282) defines maximum duration of the sound, or use 0 for infinite playback. Limiting duration is especially useful when redirecting audio to a file.
-
-![muse](muse.jpg "Triadex Muse photo")
 
 ### Credits
 
