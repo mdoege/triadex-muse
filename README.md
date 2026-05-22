@@ -14,7 +14,7 @@ The Triadex Muse plays an endless melody over two octaves of a major scale. The 
 
 [This page](https://till.com/articles/muse/) has some background information about the Muse and also features a JavaScript-based simulator. Just place the eight sliders at random positions, increase the tempo to 6 or 7 and click *RUN*. It even simulates the four-color light show box that was available as an optional accessory.
 
-The Muse uses two binary counters and a 31-bit [linear-feedback shift register](https://en.wikipedia.org/wiki/Linear-feedback_shift_register) (with up to four taps: theme sliders W to Z) to create binary input signals. The generated patterns are either repeating or more random, depending on the setting of the theme sliders. LEDs at the right side show the currently active bits in the counters and shift register.
+The Muse uses two binary counters and a 31-bit [linear-feedback shift register](https://en.wikipedia.org/wiki/Linear-feedback_shift_register) (with up to four taps: theme sliders W to Z) to create binary input signals. The generated patterns are either repeating or more random, depending on the setting of the theme sliders. A vertical strip of lamps at the right side shows the current state of the bits in the counters and shift register.
 
 Bits from these signals are then selected by the four interval sliders (A to D) at their respective positions. The resulting four-bit number is finally converted into one of 15 different pitches of the major scale, where A=1, B=2, C=4, D=8 (octave). The pitch one octave up from the base pitch/tonic is duplicated in this encoding because it has *two* representations, 7 and 8.
 
