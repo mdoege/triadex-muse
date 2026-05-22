@@ -20,11 +20,18 @@ If ```MIDI = False``` (line 24), the script sends signed 16-bit audio samples (m
 
 Alternatively, you can redirect output to a file and then import it into Audacity as a raw file.
 
-#### With MIDI output
+#### With MIDI output (default)
 
-If ```MIDI = True``` (line 24), output is sent as MIDI notes using the [mido](https://github.com/mido/mido) module. An external synth is required in that case, but many free and open source options exist.
+If ```MIDI = True``` (line 24), output is sent as MIDI notes using the [mido](https://github.com/mido/mido) module.
 
-[Dexed](https://asb2m10.github.io/dexed/) is a nice open source FM synth with many great presets, and it also shows which keys are currently played. Or try [amsynth](https://amsynth.github.io/) (Linux/Mac) for some analog warmth. Or run *both* at the same time, e.g. using the [MixedBag1](https://musical-artifacts.com/artifacts/142) ⇨ CorgGalaxy01 patch in amsynth and the vibraphone in Dexed. [Surge](https://surge-synthesizer.github.io/) is also excellent (e.g. using Argitoth ⇨ Keys ⇨ Gumdrops) and even more powerful than Dexed or amsynth. These synths are all available as standalone binaries, so no DAW is necessary to run them.
+An external synth is required to turn MIDI notes into audio in that case, but many free and open source options exist:
+
+* [Dexed](https://asb2m10.github.io/dexed/) is a nice open source FM synth with many great presets, and it also shows which piano keys are currently pressed.
+* Or try [OB-Xf](https://github.com/surge-synthesizer/OB-Xf) or [amsynth](https://amsynth.github.io/) (Linux/Mac) for some analog warmth. Keys ⇨ Santori Time is a good OB-Xf preset that works well with the Muse.
+* Or run two synths at the same time, e.g. using the [MixedBag1](https://musical-artifacts.com/artifacts/142) ⇨ CorgGalaxy01 patch in amsynth and the vibraphone in Dexed.
+* [Surge](https://surge-synthesizer.github.io/) is also excellent (e.g. using the Argitoth ⇨ Keys ⇨ Gumdrops preset) and even more powerful than Dexed or amsynth.
+
+These synths are all available as standalone binaries, so no DAW is necessary to run them.
 
 ### Program parameters
 
