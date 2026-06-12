@@ -25,121 +25,121 @@ MIDI = True
 
 
 if MIDI:
-	import mido
+    import mido
 
-	port = mido.open_output()
-	msg = mido.Message('control_change', control = 123)
-	port.send(msg)
+    port = mido.open_output()
+    msg = mido.Message('control_change', control = 123)
+    port.send(msg)
 
 if sys.stdout.isatty() and not MIDI:
-	print("*** This script outputs audio samples.")
-	print("*** Please redirect standard output to an audio player or a file!")
-	sys.exit()
+    print("*** This script outputs audio samples.")
+    print("*** Please redirect standard output to an audio player or a file!")
+    sys.exit()
 
 # defining classes
 
 class Clock:
-	def __init__(self):
-		# intializes as variable with value 0
-		self.val = 0
+    def __init__(self):
+        # intializes as variable with value 0
+        self.val = 0
 
-	def __str__(self):
-		# prints as current value
-		return str(self.val)
+    def __str__(self):
+        # prints as current value
+        return str(self.val)
 
-	def pulse(self):
-		self.val += 1
+    def pulse(self):
+        self.val += 1
 
-	def reset(self):
-		self.val = 0
+    def reset(self):
+        self.val = 0
 
 timer = Clock()
 
 class Stack:
-	# use in Muse: create with 31 bits
+    # use in Muse: create with 31 bits
 
-	def __init__(self,length):
-		# initializes as random 0s and 1s, to specified length
-		self.length = length
-		self.items = [0 for i in range(self.length)]
+    def __init__(self,length):
+        # initializes as random 0s and 1s, to specified length
+        self.length = length
+        self.items = [0 for i in range(self.length)]
 
-	def __str__(self):
-		# prints as a list
-		return str(self.items)
+    def __str__(self):
+        # prints as a list
+        return str(self.items)
 
-	def pulse(self,item):
-		# effectively shifts everything down one place
-		# add new value at the beginning 
-		self.items.insert(0,item)
-		# remove and return last item
-		self.items.pop()
+    def pulse(self,item):
+        # effectively shifts everything down one place
+        # add new value at the beginning 
+        self.items.insert(0,item)
+        # remove and return last item
+        self.items.pop()
 
 class BinaryCounter:
-	# use in Muse: create with five bits
+    # use in Muse: create with five bits
 
-	def __init__(self,length,clock=timer):
-		# initializes as a list of all 0s, to specified length
-		self.length = length
-		self.digits = [0 for i in range(length)]
-		self.clock = clock
+    def __init__(self,length,clock=timer):
+        # initializes as a list of all 0s, to specified length
+        self.length = length
+        self.digits = [0 for i in range(length)]
+        self.clock = clock
 
-	def __str__(self):
-		# prints as a list
-		return str(self.digits)
+    def __str__(self):
+        # prints as a list
+        return str(self.digits)
 
-	def pulse(self):
-		length = self.length # for convenience
+    def pulse(self):
+        length = self.length # for convenience
 
-		def switch(digit):
-			# switch a digit fom 0 to 1 or vice versa
-			if digit == 0:
-				return 1
-			else:
-				return 0
+        def switch(digit):
+            # switch a digit fom 0 to 1 or vice versa
+            if digit == 0:
+                return 1
+            else:
+                return 0
 
-		# reset if everything is 1
-		if sum(self.digits) == length:
-			# reset to all 0s
-			self.digits = [0 for i in range(length)]
-		else:
-			# if not resetting, count up one...
-			for location in range(len(self.digits)):
-				if self.clock.val % (2**location) == 0:
-					self.digits[location] = switch(self.digits[location])
-				else:
-					pass
+        # reset if everything is 1
+        if sum(self.digits) == length:
+            # reset to all 0s
+            self.digits = [0 for i in range(length)]
+        else:
+            # if not resetting, count up one...
+            for location in range(len(self.digits)):
+                if self.clock.val % (2**location) == 0:
+                    self.digits[location] = switch(self.digits[location])
+                else:
+                    pass
 
 class TripleCounter:
-	# use in Muse: create with two bits
+    # use in Muse: create with two bits
 
-	def __init__(self,length,clock=timer):
-		# initializes as a list of all 0s, to specified length
-		self.length = length
-		self.digits = [0 for i in range(length)]
-		self.clock = clock
+    def __init__(self,length,clock=timer):
+        # initializes as a list of all 0s, to specified length
+        self.length = length
+        self.digits = [0 for i in range(length)]
+        self.clock = clock
 
 
-	def __str__(self):
-		# prints as a list
-		return str(self.digits)
+    def __str__(self):
+        # prints as a list
+        return str(self.digits)
 
-	def pulse(self):
-		length = self.length # for convenience
+    def pulse(self):
+        length = self.length # for convenience
 
-		def switch(digit):
-			# switch a digit fom 0 to 1 or vice versa
-			if digit == 0:
-				return 1
-			else:
-				return 0
+        def switch(digit):
+            # switch a digit fom 0 to 1 or vice versa
+            if digit == 0:
+                return 1
+            else:
+                return 0
 
-		# now the main activity of the function
-		# reset if everything is 1
-		for location in range(len(self.digits)):
-			if self.clock.val % (3*(location+1)) == 0:
-				self.digits[location] = switch(self.digits[location])
-			else:
-				pass
+        # now the main activity of the function
+        # reset if everything is 1
+        for location in range(len(self.digits)):
+            if self.clock.val % (3*(location+1)) == 0:
+                self.digits[location] = switch(self.digits[location])
+            else:
+                pass
 
 # creating shift register and binary counter
 
@@ -149,64 +149,64 @@ counter2 = TripleCounter(2)
 
 
 class Slider:
-	# use in Muse: create 'A','B','C','D' (interval),'W','X','Y','Z' (theme) sliders
+    # use in Muse: create 'A','B','C','D' (interval),'W','X','Y','Z' (theme) sliders
 
-	def __init__(self,
-				name,
-				val=0,
-				binaryCounter=counter1,
-				tripleCounter=counter2,
-				stack=shiftRegister):
-		# initializes as a variable set to 0, i.e. "off"
-		# binaryCounter and stack are what the sliders will pull values from
-		self.name = name
-		self.val = val
-		self.binaryCounter = binaryCounter
-		self.tripleCounter = tripleCounter
-		self.stack = stack
+    def __init__(self,
+                name,
+                val=0,
+                binaryCounter=counter1,
+                tripleCounter=counter2,
+                stack=shiftRegister):
+        # initializes as a variable set to 0, i.e. "off"
+        # binaryCounter and stack are what the sliders will pull values from
+        self.name = name
+        self.val = val
+        self.binaryCounter = binaryCounter
+        self.tripleCounter = tripleCounter
+        self.stack = stack
 
-	def __str__(self):
-		# prints as integer
-		return str(self.val)	
+    def __str__(self):
+        # prints as integer
+        return str(self.val)    
 
-	def output(self):
-		outputList = [0,1] # off, on
-		# append the counters and shift register to create one big list to pull from
-		for i in self.binaryCounter.digits:
-			outputList.append(i)
-		for i in self.tripleCounter.digits:
-			outputList.append(i)
-		for i in self.stack.items:
-			outputList.append(i)
-		# pull from list
-		return outputList[self.val]
+    def output(self):
+        outputList = [0,1] # off, on
+        # append the counters and shift register to create one big list to pull from
+        for i in self.binaryCounter.digits:
+            outputList.append(i)
+        for i in self.tripleCounter.digits:
+            outputList.append(i)
+        for i in self.stack.items:
+            outputList.append(i)
+        # pull from list
+        return outputList[self.val]
 
 def parityGen(inputList):
-	# inputList should be a binary, a list of the values of W through Z sliders
-	# parityGen outputs 1 for an even sum and 0 for an odd sum
-	summedOuts = sum(inputList) + 1
-	output = summedOuts % 2
-	return output
+    # inputList should be a binary, a list of the values of W through Z sliders
+    # parityGen outputs 1 for an even sum and 0 for an odd sum
+    summedOuts = sum(inputList) + 1
+    output = summedOuts % 2
+    return output
 
 def getNoteNum(inputList):
-	# inputList should be binary, a list of the values of A through D sliders
-	# getNote outputs how many notes above the tonic the output note is
-	num,exponent = 0,0
-	for i in inputList:
-		num += i * (2 ** exponent)
-		exponent += 1
-	return num
+    # inputList should be binary, a list of the values of A through D sliders
+    # getNote outputs how many notes above the tonic the output note is
+    num,exponent = 0,0
+    for i in inputList:
+        num += i * (2 ** exponent)
+        exponent += 1
+    return num
 
 def getNoteFrequency(key,noteNum):
-	# key = tonic frequency, noteNum = placement in scale (e.g. 0 = tonic, 1 = whole step up)
-	# progression of half tone increases in a major scale
-	# (The middle note, one octave up from the tonic/base pitch, is repeated,
-	# so that the D switch input controls the octave.)
-	halfTones = [0,2,4,5,7,9,11,12,12,14,16,17,19,21,23,24]
-	# convert placement in scale to Hz
-	eqt = 2**(1/12)
-	frequency = key * (eqt ** halfTones[noteNum])
-	return frequency, halfTones[noteNum]
+    # key = tonic frequency, noteNum = placement in scale (e.g. 0 = tonic, 1 = whole step up)
+    # progression of half tone increases in a major scale
+    # (The middle note, one octave up from the tonic/base pitch, is repeated,
+    # so that the D switch input controls the octave.)
+    halfTones = [0,2,4,5,7,9,11,12,12,14,16,17,19,21,23,24]
+    # convert placement in scale to Hz
+    eqt = 2**(1/12)
+    frequency = key * (eqt ** halfTones[noteNum])
+    return frequency, halfTones[noteNum]
 
 # creating interval and theme sliders
 
@@ -224,28 +224,28 @@ allSliders = [A,B,C,D,W,X,Y,Z]
 # a big function that pulses everything (clock, counters, shift register) "forwards" in time and returns a note
 
 def pulseAll(key,
-			sliderList=allSliders,
-			stack=shiftRegister,
-			clock=timer,
-			binaryCounter=counter1,
-			tripleCounter=counter2):
-	# sliderList is list of sliders: first four interval, last four theme
-	# call all slider values
-	sliderVals = []
-	for slider in sliderList:
-		sliderVals.append(slider.output())
-	# pulse all forward
-	clock.pulse()
-	counter1.pulse()
-	counter2.pulse()
-	parityIn = [sliderVals[i+4] for i in range(4)]
-	parityOut = parityGen(parityIn)
-	stack.pulse(parityOut)
-	# get note, return in Hz
-	noteNum = getNoteNum([sliderVals[i] for i in range(4)])
-	noteFrequency, halfTones = getNoteFrequency(key, noteNum)
-	#print(noteNum)
-	return noteFrequency, halfTones
+            sliderList=allSliders,
+            stack=shiftRegister,
+            clock=timer,
+            binaryCounter=counter1,
+            tripleCounter=counter2):
+    # sliderList is list of sliders: first four interval, last four theme
+    # call all slider values
+    sliderVals = []
+    for slider in sliderList:
+        sliderVals.append(slider.output())
+    # pulse all forward
+    clock.pulse()
+    counter1.pulse()
+    counter2.pulse()
+    parityIn = [sliderVals[i+4] for i in range(4)]
+    parityOut = parityGen(parityIn)
+    stack.pulse(parityOut)
+    # get note, return in Hz
+    noteNum = getNoteNum([sliderVals[i] for i in range(4)])
+    noteFrequency, halfTones = getNoteFrequency(key, noteNum)
+    #print(noteNum)
+    return noteFrequency, halfTones
 
 """ User-operated variables """
 
@@ -306,77 +306,77 @@ low_pass = 20         # low-pass filter time scale
 # create list of slider setting names
 spos = ["OFF", "ON ", "C.5", "C1 ", "C2 ", "C4 ", "C8 ", "C3 ", "C6 "]
 for i in range(1, 32):
-	t = "B%u" % i
-	if len(t) < 3:
-		t += " "
-	spos.append(t)
+    t = "B%u" % i
+    if len(t) < 3:
+        t += " "
+    spos.append(t)
 
 # main loop
 while True:
-	freq, note = pulseAll(pitch)
+    freq, note = pulseAll(pitch)
 
-	# medium frequencies have the highest amplitude
-	#   (like a band-pass filter around 2 * base pitch)
-	if freq > 2 * pitch:
-		ampli = 2 * pitch / freq
-	else:
-		ampli = freq / (2 * pitch)
+    # medium frequencies have the highest amplitude
+    #   (like a band-pass filter around 2 * base pitch)
+    if freq > 2 * pitch:
+        ampli = 2 * pitch / freq
+    else:
+        ampli = freq / (2 * pitch)
 
-	# refill the shift register with random bits if it is all zeros or all ones
-	#   (occasionally this happens if W, X, Y, Z are in bad positions)
-	if sum(shiftRegister.items) in (0, 31):
-		for i, x in enumerate(shiftRegister.items):
-			shiftRegister.items[i] = random.randint(0, 1)
+    # refill the shift register with random bits if it is all zeros or all ones
+    #   (occasionally this happens if W, X, Y, Z are in bad positions)
+    if sum(shiftRegister.items) in (0, 31):
+        for i, x in enumerate(shiftRegister.items):
+            shiftRegister.items[i] = random.randint(0, 1)
 
-	# send sine wave to standard output
-	if not MIDI:
-		for x in range(int(seconds * samp)):
-			p = 2 * math.pi * x / samp * freq
-			v = 20000 * ampli * math.sin(p)
-			# add a slight low-pass filter to smooth transitions between notes
-			out += (v - out) / low_pass
-			b = struct.pack("h", round(out))
-			sys.stdout.buffer.write(b)
+    # send sine wave to standard output
+    if not MIDI:
+        for x in range(int(seconds * samp)):
+            p = 2 * math.pi * x / samp * freq
+            v = 20000 * ampli * math.sin(p)
+            # add a slight low-pass filter to smooth transitions between notes
+            out += (v - out) / low_pass
+            b = struct.pack("h", round(out))
+            sys.stdout.buffer.write(b)
 
-	# send note via MIDI
-	if MIDI:
-		msg = mido.Message('note_on', note = note + midi_base, velocity = midi_vel)
-		port.send(msg)
-		try:
-			time.sleep(seconds)
-		except KeyboardInterrupt:
-			msg = mido.Message('control_change', control = 123)
-			port.send(msg)
-			break        
-		msg = mido.Message('note_off', note = note + midi_base)
-		port.send(msg)
+    # send note via MIDI
+    if MIDI:
+        msg = mido.Message('note_on', note = note + midi_base, velocity = midi_vel)
+        port.send(msg)
+        try:
+            time.sleep(seconds)
+        except KeyboardInterrupt:
+            msg = mido.Message('control_change', control = 123)
+            port.send(msg)
+            break        
+        msg = mido.Message('note_off', note = note + midi_base)
+        port.send(msg)
 
-	# check if maximum duration has been reached
-	cursec += seconds
-	if sec_max > 0 and cursec >= sec_max:
-		break
+    # check if maximum duration has been reached
+    cursec += seconds
+    if sec_max > 0 and cursec >= sec_max:
+        break
 
-	# introduce random changes to slider settings
-	if evolve > 0:
-		ev_count += 1
-		if ev_count == evolve:
-			ev_count = 0
-			s = random.choice(allSliders)
-			if random.random() < counter_prob:
-				# switch to OFF/ON/Cx (counter) section
-				s.val = random.randint(0, 8)
-			else:
-				# switch to Bx (shift register) section
-				s.val = random.randint(9, 39)
+    # introduce random changes to slider settings
+    if evolve > 0:
+        ev_count += 1
+        if ev_count == evolve:
+            ev_count = 0
+            s = random.choice(allSliders)
+            if random.random() < counter_prob:
+                # switch to OFF/ON/Cx (counter) section
+                s.val = random.randint(0, 8)
+            else:
+                # switch to Bx (shift register) section
+                s.val = random.randint(9, 39)
 
-			if show_info:
-				# print changed value to stderr
-				sys.stderr.write("%s -> %s\n         " % (s.name, spos[s.val]))
-				# print current settings to stderr
-				for x in allSliders:
-					sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
-				# print shift register
-				sr = "".join([str(x) for x in shiftRegister.items])
-				sys.stderr.write("\n         LFSR: %s\n" % sr)
-				sys.stderr.flush()
+            if show_info:
+                # print changed value to stderr
+                sys.stderr.write("%s -> %s\n         " % (s.name, spos[s.val]))
+                # print current settings to stderr
+                for x in allSliders:
+                    sys.stderr.write("%s: %s  " % (x.name, spos[x.val]))
+                # print shift register
+                sr = "".join([str(x) for x in shiftRegister.items])
+                sys.stderr.write("\n         LFSR: %s\n" % sr)
+                sys.stderr.flush()
 
