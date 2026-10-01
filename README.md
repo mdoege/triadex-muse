@@ -2,7 +2,7 @@
 
 This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse) by Edward Fredkin and Marvin Minsky, a pioneering two-octave monophonic music synthesizer.
 
-Audio output works either by built-in audio synthesis (which requires an audio player that can play raw audio samples) or by MIDI output to an external synth.
+Audio output works either by built-in audio synthesis (which requires an audio player that can play raw audio samples) or by MIDI output to an external synth, e.g. my own Python-based [PyWave](https://github.com/mdoege/PyWave) MIDI synths.
 
 ### Computer History Museum exhibit
 
