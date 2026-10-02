@@ -1,6 +1,8 @@
 ## Triadex Muse
 
-This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse), a pioneering two-octave monophonic music synthesizer by Edward Fredkin and Marvin Minsky. The Muse uses a linear-feedback shift register to generate an endless random melody.
+This is a Python implementation of the 1971 [Triadex Muse](https://en.wikipedia.org/wiki/Triadex_Muse), a pioneering two-octave monophonic music synthesizer by Edward Fredkin and famous MIT AI researcher [Marvin Minsky](https://en.wikipedia.org/wiki/Marvin_Minsky).
+
+The Muse uses a linear-feedback shift register to generate an endless random melody. The device has several sliders with which the user can influence the melody, e.g. tempo or pitch, but also for changing the random generator settings.
 
 The [original Python script](https://github.com/mlsteele/triadex-muse) needs Pyo for audio output, but my fork has two output options:
 
